@@ -19,7 +19,8 @@ jobs:
       - name: Get Time
         id: time
         uses: nanzm/get-time-action@v1.1
-          format: 'YYYY.MM.DD'
+        with:
+          format: "YYYY.MM.DD"
       - name: Build container
         env:
           TIME: "${{ steps.time.outputs.time }}"
