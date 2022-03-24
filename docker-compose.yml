@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  arch_build_system:
+    build: .
+    volumes:
+      - ./cache/pkg:/var/cache/pacman/pkg
+      - ./cache/pikaur:/home/user/.cache/pikaur/pkg
+      - ./cache/go:/home/user/go
+      - /tmp:/tmp
