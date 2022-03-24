@@ -49,5 +49,5 @@ jobs:
 
       - name: Build
         run: |
-          chmor -R 777 cache
+          chmod -R 777 cache
           docker-compose run arch_builder build.rb ${{ matrix.package }}
