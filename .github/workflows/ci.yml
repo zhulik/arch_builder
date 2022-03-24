@@ -47,4 +47,4 @@ jobs:
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
 
       - name: Build
-        run: docker-compose run arch_builder build.rb ${{ martix.package }}
+        run: docker-compose run arch_builder build.rb ${{ matrix.package }}
