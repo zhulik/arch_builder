@@ -10,18 +10,20 @@ jobs:
     steps:
       - name: Checking out code from GitHub
         uses: actions/checkout@v2
-      
+
       - name: Get Time
         id: time
         uses: nanzm/get-time-action@v1.1
         with:
           format: "YYYY.MM.DD"
-      
+
       - name: Authenticate at ghcr.io
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
-      
+
       - name: Build container
         run: docker build -t "ghcr.io/zhulik/arch_builder" .
+
+      - name: Push container
         env:
           TIME: "${{ steps.time.outputs.time }}"
         run: |
