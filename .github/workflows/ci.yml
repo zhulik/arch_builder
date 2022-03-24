@@ -25,11 +25,11 @@ jobs:
 
       - name: Push container
         env:
-          TIME: "${{ steps.time.outputs.time }}"
+          VERSION: "${{ steps.time.outputs.time }}"
         run: |
-          docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$TIME"
+          docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$VERSION"
           docker push "ghcr.io/zhulik/arch_builder:latest"
-          docker push "ghcr.io/zhulik/arch_builder:$TIME"
+          docker push "ghcr.io/zhulik/arch_builder:$VERSION"
 
   build_package:
     runs-on: ubuntu-latest
