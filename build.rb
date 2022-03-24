@@ -8,8 +8,8 @@ PACKAGE = ARGV.first
 
 raise "error" if PACKAGE.nil?
 
-puts("Building #{PACKAGE_NAME}...")
+puts("Building #{PACKAGE}...")
 
 `pikaur -Swa #{PACKAGE} --noconfirm`
 
-puts("#{PACKAGE_NAME} is built.")
+puts("#{PACKAGE} is built.")
