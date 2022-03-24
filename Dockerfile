@@ -1,7 +1,7 @@
 FROM archlinux:base-devel
 
 RUN pacman -Syu --noconfirm &&\
-  pacman -S --noconfirm wget unzip git pyalpm python-commonmark asp cmake svn mercurial ruby sudo &&\
+  pacman -S --noconfirm wget unzip git pyalpm python-commonmark asp cmake svn mercurial ruby sudo go nodejs rust &&\
   yes | pacman -Scc
 
 RUN useradd -m -p $(openssl passwd -1 password) user && \

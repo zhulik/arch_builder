@@ -5,7 +5,7 @@ on: [push, pull_request]
 
 jobs:
   build_container:
-    name: Build
+    name: Build container
     runs-on: ubuntu-latest
     steps:
       - name: Checking out code from GitHub
@@ -32,6 +32,7 @@ jobs:
           docker push "ghcr.io/zhulik/arch_builder:$VERSION"
 
   build_package:
+    name: Build package
     runs-on: ubuntu-latest
     needs:
       - build_container
