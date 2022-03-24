@@ -16,7 +16,16 @@ jobs:
       #     key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
       #     restore-keys: |
       #       ${{ runner.os }}-pip-
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+          format: 'YYYY.MM.DD'
       - name: Build container
-        run: docker-compose build
-      - name: Build some package
-        run: docker-compose run arch_builder build.rb adguardhome
+        env:
+          TIME: "${{ steps.time.outputs.time }}"
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+          docker build -t "ghcr.io/zhulik/arch_builder" .
+          docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$TIME"
+          docker push "ghcr.io/zhulik/arch_builder:latest"
+          docker push "ghcr.io/zhulik/arch_builder:$TIME"
