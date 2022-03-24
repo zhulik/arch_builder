@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  arch_build_system:
+  arch_builder:
     build: .
     volumes:
       - ./cache/pkg:/var/cache/pacman/pkg

@@ -18,3 +18,5 @@ jobs:
       #       ${{ runner.os }}-pip-
       - name: Build container
         run: docker-compose build
+      - name: Build some package
+        run: docker-compose run arch_builder build.rb adguardhome
