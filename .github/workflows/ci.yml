@@ -30,3 +30,21 @@ jobs:
           docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$TIME"
           docker push "ghcr.io/zhulik/arch_builder:latest"
           docker push "ghcr.io/zhulik/arch_builder:$TIME"
+
+  build_package:
+    runs-on: ubuntu-latest
+    needs:
+      - build_container
+    strategy:
+      matrix:
+        package: ["adguardhome", "telegraf"]
+    steps:
+      - uses: actions/checkout@v2
+
+      # TODO: cache
+
+      - name: Authenticate at ghcr.io
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+
+      - name: Build
+        run: docker-compose run arch_builder build.rb ${{ martix.package }}
