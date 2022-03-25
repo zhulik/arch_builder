@@ -58,9 +58,16 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v1-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2-${{ steps.version_step.outputs.version }}
           restore-keys: |
             ${{ matrix.package }}-
+
+      - name: Save existing package list
+        id: packages_before_build_step
+        run: echo "::set-output name=list::$(ls -t /home/user/.cache/pikaur/pkg)"
+
+      - name: Print package list before build
+        run: echo #{{ steps.packages_before_build_step.outputs.list }}
 
       - name: Build
         if: steps.cache.outputs.cache-hit != 'true'
