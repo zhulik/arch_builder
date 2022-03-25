@@ -50,7 +50,6 @@ jobs:
         run: echo "::set-output name=version::$(docker-compose run arch_builder pikaur -Si ${{ matrix.package }} | grep Version | cut -d' ' -f11)"
 
       - name: Print latest version
-        id: version_step
         run: echo ${{ steps.version_step.outputs.version }}
 
       # TODO: cache
