@@ -52,7 +52,7 @@ jobs:
       - name: Print latest version
         run: echo ${{ steps.version_step.outputs.version }}
 
-      - name: Cache multiple paths
+      - name: Cache package and dependencies
         uses: actions/cache@v3
         with:
           path: cache
