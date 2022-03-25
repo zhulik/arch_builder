@@ -93,17 +93,21 @@ jobs:
           for i in $files_after
           do
             if ! echo "$files_before" | grep $i ; then
-              created="cache/pikaur/$i $created"
+              created="cache/pikaur/$i,$created"
             fi
           done
 
-          echo "::set-output name=list::$(echo $created | sed -e 's/^[[:space:]]*//' | tr ' ' \"\n\")" # Trim and split $created
+          echo "::set-output name=list::$(echo $created | sed 's:,*$::' )" # Trim and split $created
 
       - name: Print new files
         run: echo ${{ steps.new_files_step.outputs.list }}
 
+      - name: Copy new files
+        run: |
+          mkdir artifacts
+          mv {${{ steps.new_files_step.outputs.list }}} artifacts/
+
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.package }}-${{ steps.version_step.outputs.version }}
-          path: |
-            ${{ steps.new_files_step.outputs.list }}
+          path: artifacts/*
