@@ -39,7 +39,17 @@ jobs:
     #   - build_container
     strategy:
       matrix:
-        package: ["platformio"]
+        package:
+          - adguardhome
+          - flacon
+          - google-chrome
+          - package-query
+          - pikaur
+          - platformio
+          - rubymine
+          - telegraf
+          - visual-studio-code-bin
+
     steps:
       - uses: actions/checkout@v2
 
