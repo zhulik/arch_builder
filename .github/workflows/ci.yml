@@ -57,8 +57,8 @@ jobs:
         with:
           path: cache
           key: ${{ matrix.package }}-${{ steps.version_step.outputs.version }}
-          restore-keys:
-            - ${{ matrix.package }}-
+          restore-keys: |
+            ${{ matrix.package }}-
 
       - name: Build
         run: |
