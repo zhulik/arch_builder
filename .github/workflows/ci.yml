@@ -42,7 +42,7 @@ jobs:
     strategy:
       matrix:
         package:
-          - adguardhome
+          # - adguardhome # deal with colon in file names
           - flacon
           - google-chrome
           - package-query
