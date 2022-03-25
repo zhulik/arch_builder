@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.1-${{ steps.version_step.outputs.version }}
           restore-keys: |
             ${{ matrix.package }}-
 
@@ -75,3 +75,13 @@ jobs:
           chmod -R 777 cache
           docker-compose run arch_builder build.rb ${{ matrix.package }}
           sudo chmod -R 777 cache
+
+      - name: Publish artifacts
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          files_before=${{ steps.packages_before_build_step.outputs.list }}
+          files_after=$(ls -t cache/pikaur)
+          echo "Files before:"
+          echo $files_before
+          echo "Files after:"
+          echo $files_after
