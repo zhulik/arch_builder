@@ -67,7 +67,7 @@ jobs:
         run: echo "::set-output name=list::$(ls -t cache/pikaur)"
 
       - name: Print package list before build
-        run: echo #{{ steps.packages_before_build_step.outputs.list }}
+        run: echo ${{ steps.packages_before_build_step.outputs.list }}
 
       - name: Build
         if: steps.cache.outputs.cache-hit != 'true'
