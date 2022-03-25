@@ -39,7 +39,7 @@ jobs:
     #   - build_container
     strategy:
       matrix:
-        package: ["package-query"]
+        package: ["platformio"]
     steps:
       - uses: actions/checkout@v2
 
@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.4-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.5-${{ steps.version_step.outputs.version }}
           # restore-keys: |
           #   ${{ matrix.package }}-
 
@@ -76,8 +76,9 @@ jobs:
           docker-compose run arch_builder build.rb ${{ matrix.package }}
           sudo chmod -R 777 cache
 
-      - name: Publish artifacts
+      - name: Find new files
         if: steps.cache.outputs.cache-hit != 'true'
+        id: new_files_step
         run: |
           files_before="${{ steps.packages_before_build_step.outputs.list }}"
           files_after="$(ls -t cache/pikaur)"
@@ -94,5 +95,6 @@ jobs:
             fi
           done
 
-          echo "Created files:"
-          echo "$created"
+          echo "::set-output name=list::$created"
+      - name: Print new files
+        run: echo ${{ steps.new_files_step.outputs.list }}
