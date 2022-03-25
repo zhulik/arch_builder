@@ -64,3 +64,4 @@ jobs:
         run: |
           chmod -R 777 cache
           docker-compose run arch_builder build.rb ${{ matrix.package }}
+          chmod -R 777 cache
