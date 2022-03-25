@@ -64,7 +64,7 @@ jobs:
 
       - name: Save existing package list
         id: packages_before_build_step
-        run: echo "::set-output name=list::$(ls -t /home/user/.cache/pikaur/pkg)"
+        run: echo "::set-output name=list::$(ls -t cache/pikaur)"
 
       - name: Print package list before build
         run: echo #{{ steps.packages_before_build_step.outputs.list }}
