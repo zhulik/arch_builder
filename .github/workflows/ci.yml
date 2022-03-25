@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.5-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.6-${{ steps.version_step.outputs.version }}
           # restore-keys: |
           #   ${{ matrix.package }}-
 
@@ -91,10 +91,10 @@ jobs:
           for i in $files_after
           do
             if ! echo "$files_before" | grep $i ; then
-              created="$i $created"
+              created="cache/pikaur/$i $created"
             fi
           done
 
-          echo "::set-output name=list::$created"
+          echo "::set-output name=list::$(echo $created | sed -e 's/^[[:space:]]*//')" # Trim $created
       - name: Print new files
         run: echo ${{ steps.new_files_step.outputs.list }}
