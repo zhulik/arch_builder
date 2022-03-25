@@ -107,7 +107,7 @@ jobs:
             fi
           done
 
-          echo "::set-output name=list::$(echo $created | sed 's:,*$::' )" # Trim and split $created
+          echo "::set-output name=list::$(echo $created)" # Trim and split $created
 
       - name: Print new files
         if: steps.cache.outputs.cache-hit != 'true'
