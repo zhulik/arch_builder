@@ -110,14 +110,17 @@ jobs:
           echo "::set-output name=list::$(echo $created | sed 's:,*$::' )" # Trim and split $created
 
       - name: Print new files
+        if: steps.cache.outputs.cache-hit != 'true'
         run: echo ${{ steps.new_files_step.outputs.list }}
 
       - name: Copy new files
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           mkdir artifacts
           mv {${{ steps.new_files_step.outputs.list }}} artifacts/
 
       - uses: actions/upload-artifact@v3
+        if: steps.cache.outputs.cache-hit != 'true'
         with:
           name: ${{ matrix.package }}-${{ steps.version_step.outputs.version }}
           path: artifacts/*
