@@ -52,9 +52,15 @@ jobs:
       - name: Print latest version
         run: echo ${{ steps.version_step.outputs.version }}
 
-      # TODO: cache
+      - name: Cache multiple paths
+        uses: actions/cache@v3
+        with:
+          path: cache
+          key: ${{ matrix.package }}-${{ steps.version_step.outputs.version }}
+          restore-keys:
+            - ${{ matrix.package }}-
 
-      # - name: Build
-      #   run: |
-      #     chmod -R 777 cache
-      #     docker-compose run arch_builder build.rb ${{ matrix.package }}
+      - name: Build
+        run: |
+          chmod -R 777 cache
+          docker-compose run arch_builder build.rb ${{ matrix.package }}
