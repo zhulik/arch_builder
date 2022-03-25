@@ -60,7 +60,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.7-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.8-${{ steps.version_step.outputs.version }}
           # restore-keys: |
           #   ${{ matrix.package }}-
 
@@ -97,7 +97,7 @@ jobs:
             fi
           done
 
-          echo "::set-output name=list::$(echo $created | sed -e 's/^[[:space:]]*//')" # Trim $created
+          echo "::set-output name=list::$(echo $created | sed -e 's/^[[:space:]]*//' | tr ' ' \"\n\")" # Trim and split $created
 
       - name: Print new files
         run: echo ${{ steps.new_files_step.outputs.list }}
