@@ -58,9 +58,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.1-${{ steps.version_step.outputs.version }}
-          restore-keys: |
-            ${{ matrix.package }}-
+          key: ${{ matrix.package }}-v2.2-${{ steps.version_step.outputs.version }}
+          # restore-keys: |
+          #   ${{ matrix.package }}-
 
       - name: Save existing package list
         id: packages_before_build_step
@@ -85,3 +85,14 @@ jobs:
           echo $files_before
           echo "Files after:"
           echo $files_after
+          echo "Changed files:"
+          created=""
+          for i in $files_after
+          do
+            echo "$files_before" | grep $i
+            if [[ "$?" -eq "0" ]]
+            then
+              created=$created" "$i
+            fi
+          done
+          echo $created
