@@ -79,20 +79,22 @@ jobs:
       - name: Publish artifacts
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          files_before=${{ steps.packages_before_build_step.outputs.list }}
-          files_after=$(ls -t cache/pikaur)
+          files_before="${{ steps.packages_before_build_step.outputs.list }}"
+          files_after="$(ls -t cache/pikaur)"
           echo "Files before:"
           echo $files_before
           echo "Files after:"
           echo $files_after
-          echo "Changed files:"
+
           created=""
           for i in $files_after
           do
             echo "$files_before" | grep $i
             if [[ "$?" -eq "0" ]]
             then
-              created=$created" "$i
+              created="$created\" \"$i"
             fi
           done
-          echo $created
+
+          echo "Created files:"
+          echo "$created"
