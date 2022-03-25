@@ -96,5 +96,12 @@ jobs:
           done
 
           echo "::set-output name=list::$(echo $created | sed -e 's/^[[:space:]]*//')" # Trim $created
+
       - name: Print new files
         run: echo ${{ steps.new_files_step.outputs.list }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.package }}-${{ steps.version_step.outputs.version }}
+          path: |
+            ${{ steps.new_files_step.outputs.list }}
