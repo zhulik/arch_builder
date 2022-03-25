@@ -39,7 +39,7 @@ jobs:
     #   - build_container
     strategy:
       matrix:
-        package: ["adguardhome", "telegraf"]
+        package: ["package-query"]
     steps:
       - uses: actions/checkout@v2
 
