@@ -110,14 +110,14 @@ jobs:
             fi
           done
 
-          echo "::set-output name=list::$(echo $created)" # Trim and split $created
+          echo "::set-output name=list::$(echo $created)"
 
       - name: Print new files
         if: steps.cache.outputs.cache-hit != 'true'
         run: echo ${{ steps.new_files_step.outputs.list }}
 
       - name: Copy new files
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' && steps.new_files_step.outputs.list != ""
         run: |
           mkdir artifacts
           mv {${{ steps.new_files_step.outputs.list }}} artifacts/
