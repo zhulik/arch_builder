@@ -117,7 +117,7 @@ jobs:
         run: echo ${{ steps.new_files_step.outputs.list }}
 
       - name: Copy new files
-        if: steps.cache.outputs.cache-hit != 'true' && steps.new_files_step.outputs.list != ""
+        if: steps.cache.outputs.cache-hit != 'true' && steps.new_files_step.outputs.list != ''
         run: |
           mkdir artifacts
           mv {${{ steps.new_files_step.outputs.list }}} artifacts/
