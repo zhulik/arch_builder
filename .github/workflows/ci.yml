@@ -146,7 +146,7 @@ jobs:
           path: artifacts
 
       - name: Move artifacts
-        run: mv artifacts/**/*.* mirror
+        run: mv -n artifacts/**/*.* mirror ; true
 
       - name: List packages
         run: ls mirror/
