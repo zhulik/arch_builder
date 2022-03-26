@@ -146,7 +146,7 @@ jobs:
           path: artifacts
 
       - name: Move artifacts
-        run: mv -n artifacts/**/*.* mirror ; true
+        run: find . -type f -name '*.zst' -exec mv -t mirror/ {} +
 
       - name: List packages
         run: ls mirror/
