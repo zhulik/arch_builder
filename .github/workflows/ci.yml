@@ -44,7 +44,7 @@ jobs:
         package:
           # - adguardhome # deal with colon in file names
           - asdf-vm
-          - collecd
+          - collectd
           - gickup
           - flacon
           - git-standup-git
