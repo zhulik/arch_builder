@@ -43,12 +43,19 @@ jobs:
       matrix:
         package:
           # - adguardhome # deal with colon in file names
+          - asdf-vm
+          - collecd
+          - gickup
           - flacon
+          - git-standup-git
           - google-chrome
+          - neolink-git
           - package-query
           - pikaur
           - platformio
+          - plymouth
           - rubymine
+          - shellcheck-bin
           - telegraf
           - visual-studio-code-bin
 
