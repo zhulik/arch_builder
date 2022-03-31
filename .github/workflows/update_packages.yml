@@ -51,9 +51,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.17-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.18-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}
+            ${{ matrix.package }}-v2.18
 
       - name: Save existing package list
         id: packages_before_build_step
