@@ -157,3 +157,14 @@ jobs:
 
       - name: List packages
         run: ls mirror/
+
+      - name: Push packages to the repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.REPO_API_TOKEN }}
+        with:
+          source-directory: "mirror"
+          destination-github-username: "zhulik"
+          destination-repository-name: "files"
+          user-email: zhulik.gleb@gmail.com
+          target-branch: main
