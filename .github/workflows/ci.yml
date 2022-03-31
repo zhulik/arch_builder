@@ -28,7 +28,7 @@ jobs:
 
       - name: Push
         env:
-          VERSION: "${{ steps.time.outputs.time }}"
+          VERSION: "${{ steps.time.outputs.time }}"${{ secrets.REPO_API_TOKEN }}
         run: |
           docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$VERSION"
           docker push "ghcr.io/zhulik/arch_builder:latest"
@@ -82,7 +82,7 @@ jobs:
           path: cache
           key: ${{ matrix.package }}-v2.13-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}-
+            ${{ matrix.package }}-v.2.13
 
       - name: Save existing package list
         id: packages_before_build_step
@@ -141,6 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build_package
+      
     steps:
       - name: Prepare directories
         run: |
@@ -158,14 +159,11 @@ jobs:
       - name: List packages
         run: ls files/
 
-      - name: Push packages to the repo
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.REPO_API_TOKEN }}
+      - name: Move packages to the repo # TODO: join with previous steps
+        run: mv files/* arch_builder_repo/files/os/x86_64/
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          source-directory: "files"
-          destination-github-username: "zhulik"
-          destination-repository-name: "arch_builder_repo"
-          user-email: zhulik.gleb@gmail.com
-          target-directory: "files"
-          target-branch: main
+          commit_message: Add packages
+
+      # TODO: rebuild repository index
