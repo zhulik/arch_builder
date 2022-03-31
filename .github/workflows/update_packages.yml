@@ -51,9 +51,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.16-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.17-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}-v.2.16
+            ${{ matrix.package }}
 
       - name: Save existing package list
         id: packages_before_build_step
@@ -110,8 +110,6 @@ jobs:
   push_to_repo:
     name: Push to repo
     runs-on: ubuntu-latest
-    needs:
-      - build_packages
 
     steps:
       - name: Check out
