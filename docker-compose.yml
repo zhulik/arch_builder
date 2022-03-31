@@ -8,3 +8,4 @@ services:
       - ./cache/pikaur:/home/user/.cache/pikaur/pkg
       - ./cache/go:/home/user/go
       - /tmp:/tmp
+      - files/os/x86_64:/mnt/
