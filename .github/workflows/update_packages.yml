@@ -19,7 +19,7 @@ jobs:
           - gickup
           - flacon
           # - git-standup-git
-          # - google-chrome
+          - google-chrome
           - neolink-git
           - package-query
           - pikaur
