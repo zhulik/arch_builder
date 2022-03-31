@@ -42,22 +42,22 @@ jobs:
     strategy:
       matrix:
         package:
-          # - adguardhome # deal with colon in file names
-          - asdf-vm
-          - collectd
-          - gickup
-          - flacon
-          # - git-standup-git
-          - google-chrome
-          - neolink-git
-          - package-query
-          - pikaur
-          - platformio
-          - plymouth
-          - rubymine
-          - shellcheck-bin
+          # # - adguardhome # deal with colon in file names
+          # - asdf-vm
+          # - collectd
+          # - gickup
+          # - flacon
+          # # - git-standup-git
+          # - google-chrome
+          # - neolink-git
+          # - package-query
+          # - pikaur
+          # - platformio
+          # - plymouth
+          # - rubymine
+          # - shellcheck-bin
           - telegraf
-          - visual-studio-code-bin
+          # - visual-studio-code-bin
 
     steps:
       - name: Check out
@@ -80,7 +80,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.11-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.12-${{ steps.version_step.outputs.version }}
           restore-keys: |
             ${{ matrix.package }}-
 
