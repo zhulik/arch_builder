@@ -28,7 +28,7 @@ jobs:
 
       - name: Push
         env:
-          VERSION: "${{ steps.time.outputs.time }}"${{ secrets.REPO_API_TOKEN }}
+          VERSION: "${{ steps.time.outputs.time }}"
         run: |
           docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$VERSION"
           docker push "ghcr.io/zhulik/arch_builder:latest"
@@ -141,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build_package
-      
+
     steps:
       - name: Prepare directories
         run: |
