@@ -146,6 +146,9 @@ jobs:
       - name: Check out
         uses: actions/checkout@v3
 
+      - name: Authenticate at ghcr.io
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+
       - name: Prepare directories
         run: |
           mkdir artifacts
