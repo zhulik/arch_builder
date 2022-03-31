@@ -80,9 +80,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.15-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.16-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}-v.2.15
+            ${{ matrix.package }}-v.2.16
 
       - name: Save existing package list
         id: packages_before_build_step
@@ -158,6 +158,8 @@ jobs:
         with:
           path: artifacts
 
+      # TODO: Continue only if artifacts exist
+
       - name: Move artifacts
         run: find . -type f -name '*.zst' -exec mv -nt files/os/x86_64/ {} +
 
@@ -172,6 +174,3 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Add packages
-
-      # TODO: rebuild repository index
-      # TODO: add signature
