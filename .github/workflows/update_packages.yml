@@ -7,8 +7,8 @@ on:
     - cron: "0 */3 * * *" # Every 3 hours
 
 jobs:
-  update_packages:
-    name: Build package
+  update_package:
+    name: Update package
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -111,7 +111,7 @@ jobs:
     name: Push to repo
     runs-on: ubuntu-latest
     needs:
-      - update_packages
+      - update_package
 
     steps:
       - name: Check out
