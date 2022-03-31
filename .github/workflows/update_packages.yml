@@ -19,13 +19,13 @@ jobs:
           - gickup
           - flacon
           # - git-standup-git
-          - google-chrome
+          # - google-chrome
           - neolink-git
           - package-query
           - pikaur
           - platformio
           - plymouth
-          - rubymine
+          # - rubymine
           - shellcheck-bin
           - telegraf
           - visual-studio-code-bin
@@ -51,9 +51,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.19-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.20-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}
+            ${{ matrix.package }}-v2.20
 
       - name: Save existing package list
         id: packages_before_build_step
