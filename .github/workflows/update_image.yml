@@ -1,0 +1,34 @@
+name: Build image
+
+on:
+  push:
+  schedule:
+    - cron: "0 */12 * * *" # Every 3 hours
+
+jobs:
+  build_image:
+    name: Build container
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          format: "YYYY.MM.DD"
+
+      - name: Authenticate at ghcr.io
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+
+      - name: Build
+        run: docker build -t "ghcr.io/zhulik/arch_builder" .
+
+      - name: Push
+        env:
+          VERSION: "${{ steps.time.outputs.time }}"
+        run: |
+          docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$VERSION"
+          docker push "ghcr.io/zhulik/arch_builder:latest"
+          docker push "ghcr.io/zhulik/arch_builder:$VERSION"
