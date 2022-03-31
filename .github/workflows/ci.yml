@@ -137,16 +137,18 @@ jobs:
           path: artifacts/*
 
   push_to_mirror:
-    name: Push to mirror
+    name: Push to repo
     runs-on: ubuntu-latest
     needs:
       - build_package
 
     steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
       - name: Prepare directories
         run: |
           mkdir artifacts
-          mkdir files
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -154,13 +156,7 @@ jobs:
           path: artifacts
 
       - name: Move artifacts
-        run: find . -type f -name '*.zst' -exec mv -t files/ {} +
-
-      - name: List packages
-        run: ls files/
-
-      - name: Move packages to the repo # TODO: join with previous steps
-        run: mv files/* files/os/x86_64/
+        run: find . -type f -name '*.zst' -exec mv -t files/os/x86_64/ {} +
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
