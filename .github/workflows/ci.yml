@@ -156,7 +156,7 @@ jobs:
           path: artifacts
 
       - name: Move artifacts
-        run: find . -type f -name '*.zst' -exec mv -mt files/os/x86_64/ {} +
+        run: find . -type f -name '*.zst' -exec mv -nt files/os/x86_64/ {} +
 
       - name: Clean old packages
         run: docker-compose run arch_builder paccache -rk1 -c /mnt
