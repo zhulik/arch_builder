@@ -94,7 +94,7 @@ jobs:
       - name: Build
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          chmod -R 777 cache
+          sudo chmod -R 777 cache
           docker-compose run arch_builder build.rb ${{ matrix.package }}
           sudo chmod -R 777 cache
 
@@ -165,7 +165,9 @@ jobs:
         run: docker-compose run arch_builder paccache -rk1 -c /mnt
 
       - name: Update repository index
-        run: docker-compose run arch_builder repo-add /mnt/arch_builder.db.tar.gz /mnt/*zst
+        run: |
+          sudo chmod -R 777 files
+          docker-compose run arch_builder repo-add /mnt/arch_builder.db.tar.gz /mnt/*zst
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
