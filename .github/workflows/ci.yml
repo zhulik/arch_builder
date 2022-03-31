@@ -7,38 +7,38 @@ on:
     - cron: "0 */3 * * *" # Every 3 hours
 
 jobs:
-  build_container:
-    name: Build container
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out
-        uses: actions/checkout@v3
+  # build_container:
+  #   name: Build container
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out
+  #       uses: actions/checkout@v3
 
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@v1.1
-        with:
-          format: "YYYY.MM.DD"
+  #     - name: Get Time
+  #       id: time
+  #       uses: nanzm/get-time-action@v1.1
+  #       with:
+  #         format: "YYYY.MM.DD"
 
-      - name: Authenticate at ghcr.io
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
+  #     - name: Authenticate at ghcr.io
+  #       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
 
-      - name: Build
-        run: docker build -t "ghcr.io/zhulik/arch_builder" .
+  #     - name: Build
+  #       run: docker build -t "ghcr.io/zhulik/arch_builder" .
 
-      - name: Push
-        env:
-          VERSION: "${{ steps.time.outputs.time }}"
-        run: |
-          docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$VERSION"
-          docker push "ghcr.io/zhulik/arch_builder:latest"
-          docker push "ghcr.io/zhulik/arch_builder:$VERSION"
+  #     - name: Push
+  #       env:
+  #         VERSION: "${{ steps.time.outputs.time }}"
+  #       run: |
+  #         docker tag "ghcr.io/zhulik/arch_builder" "ghcr.io/zhulik/arch_builder:$VERSION"
+  #         docker push "ghcr.io/zhulik/arch_builder:latest"
+  #         docker push "ghcr.io/zhulik/arch_builder:$VERSION"
 
   build_package:
     name: Build package
     runs-on: ubuntu-latest
-    needs:
-      - build_container
+    # needs:
+    #   - build_container
     strategy:
       matrix:
         package:
@@ -80,9 +80,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.13-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.14-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}-v.2.13
+            ${{ matrix.package }}-v.2.14
 
       - name: Save existing package list
         id: packages_before_build_step
@@ -160,7 +160,7 @@ jobs:
         run: ls files/
 
       - name: Move packages to the repo # TODO: join with previous steps
-        run: mv files/* arch_builder_repo/files/os/x86_64/
+        run: mv files/* files/os/x86_64/
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
