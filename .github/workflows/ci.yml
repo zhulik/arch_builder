@@ -47,7 +47,7 @@ jobs:
           - collectd
           - gickup
           - flacon
-          # - `
+          # - git-standup-git
           - google-chrome
           - neolink-git
           - package-query
