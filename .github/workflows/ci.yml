@@ -161,6 +161,9 @@ jobs:
       - name: Clean old packages
         run: docker-compose run arch_builder paccache -rk1 -c /mnt
 
+      - name: Update repository index
+        run: repo-add files/os/x86_64/repo.db.tar.gz files/os/x86_64/*zst
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Add packages

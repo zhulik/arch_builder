@@ -20,6 +20,7 @@ RUN mkdir -p /home/user/.cache/pikaur/pkg &&\
 VOLUME /home/user/.cache/pikaur/pkg
 VOLUME /home/user/go
 VOLUME /tmp
+VOLUME /mnt
 
 RUN mkdir pikaur &&\
   cd pikaur &&\
