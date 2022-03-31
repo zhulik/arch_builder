@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         package:
-          # - adguardhome # deal with colon in file names
+          # - adguardhome # TODO: deal with colon in file names
           - asdf-vm
           - collectd
           - gickup
@@ -136,6 +136,8 @@ jobs:
 
       - name: Clean old packages
         run: docker-compose run arch_builder paccache -rk1 -c /mnt
+
+      # TODO: sign files
 
       - name: Update repository index
         run: |
