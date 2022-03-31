@@ -52,11 +52,11 @@ jobs:
           # - neolink-git
           # - package-query
           # - pikaur
-          # - platformio
+          - platformio
           # - plymouth
           # - rubymine
           # - shellcheck-bin
-          - telegraf
+          # - telegraf
           # - visual-studio-code-bin
 
     steps:
@@ -80,7 +80,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v2.12-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v2.13-${{ steps.version_step.outputs.version }}
           restore-keys: |
             ${{ matrix.package }}-
 
