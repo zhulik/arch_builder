@@ -10,6 +10,8 @@ raise "error" if PACKAGE.nil?
 
 puts("Building #{PACKAGE}...")
 
+exit($?.exitstatus) unless system("pikaur -Sy --noconfirm")
+
 if system("pikaur -Swa #{PACKAGE} --noconfirm")
   puts("#{PACKAGE} is built.")
 else
