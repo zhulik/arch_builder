@@ -4,9 +4,6 @@ name: Update packages
 on:
   workflow_dispatch:
   push:
-  schedule:
-    - cron: "0 */3 * * *" # Every 3 hours
-
 jobs:
   update_package:
     name: Update package
