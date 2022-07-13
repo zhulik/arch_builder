@@ -27,6 +27,7 @@ jobs:
           - shellcheck-bin
           - telegraf
           - visual-studio-code-bin
+          - rocm-opencl-runtime
 
     steps:
       - name: Check out
