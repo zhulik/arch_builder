@@ -1,7 +1,7 @@
 FROM archlinux:base-devel
 
 RUN pacman -Syu --noconfirm &&\
-  pacman -S --noconfirm wget unzip git pyalpm python-commonmark asp cmake svn mercurial ruby \
+  pacman -S --noconfirm wget unzip git pyalpm python-commonmark asp cmake svn mercurial ruby ruby-faraday ruby-faraday-middleware \
   sudo go nodejs nodejs-lts-gallium rust pacman-contrib &&\
   yes | pacman -Scc
 
