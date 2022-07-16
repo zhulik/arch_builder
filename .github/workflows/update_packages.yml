@@ -41,93 +41,26 @@ jobs:
           version=$(curl --fail https://aur.archlinux.org/rpc/\?v\=5\&type\=info\&arg\[\]\=${{ matrix.package }} | jq -r .results\[\].Version)
           echo "::set-output name=version::$version"
 
-      - name: Print latest version
-        run: echo ${{ steps.version_step.outputs.version }}
+      # TODO: check if the package was already built and uploaded
+
+      # - name: Print latest version
+      #   run: echo ${{ steps.version_step.outputs.version }}
 
       - name: Cache
         id: cache
         uses: actions/cache@v3
         with:
           path: cache
-          key: ${{ matrix.package }}-v3-${{ steps.version_step.outputs.version }}
+          key: ${{ matrix.package }}-v4-${{ steps.version_step.outputs.version }}
           restore-keys: |
-            ${{ matrix.package }}-v3
-
-      - name: Save existing package list
-        id: packages_before_build_step
-        run: echo "::set-output name=list::$(ls -t cache/pikaur)"
-
-      - name: Print package list before build
-        run: echo ${{ steps.packages_before_build_step.outputs.list }}
+            ${{ matrix.package }}-v4
 
       - name: Build
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo chmod -R 777 cache
           docker-compose run arch_builder build.rb ${{ matrix.package }}
           sudo chmod -R 777 cache
 
-      - name: Find new files
-        if: steps.cache.outputs.cache-hit != 'true'
-        id: new_files_step
+      - name: Upload packages
         run: |
-          files_before="${{ steps.packages_before_build_step.outputs.list }}"
-          files_after="$(ls -t cache/pikaur)"
-
-          created=""
-          for i in $files_after
-          do
-            if ! echo "$files_before" | grep $i ; then
-              created="cache/pikaur/$i,$created"
-            fi
-          done
-
-          echo "::set-output name=list::$(echo $created)"
-
-      - name: Print new files
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: echo ${{ steps.new_files_step.outputs.list }}
-
-      - name: Copy new files
-        if: steps.cache.outputs.cache-hit != 'true' && steps.new_files_step.outputs.list != ''
-        run: |
-          mkdir artifacts
-          mv {${{ steps.new_files_step.outputs.list }}} artifacts/
-          find artifacts -type f -name '*.zst' -exec curl --fail -Ffile=@{} 'https://uploads.zhulik.wtf/upload?token=${{ secrets.UPLOAD_TOKEN }}' \;
-
-  # push_to_repo:
-  #   name: Push to repo
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - update_package
-
-  #   steps:
-  #     - name: Check out
-  #       uses: actions/checkout@v3
-
-  #     - name: Authenticate at ghcr.io
-  #       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
-
-  #     - name: Prepare directories
-  #       run: |
-  #         mkdir artifacts
-
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         path: artifacts
-
-      # TODO: Continue only if artifacts exist
-
-      # - name: Move artifacts
-      #   run: find . -type f -name '*.zst' -exec mv -nt files/os/x86_64/ {} +
-
-      # - name: Clean old packages
-      #   run: docker-compose run arch_builder paccache -rk1 -c /mnt
-
-      # TODO: sign files
-
-      # - name: Update repository index
-      #   run: |
-      #     sudo chmod -R 777 files
-      #     docker-compose run arch_builder bash -c "repo-add /mnt/arch_builder.db.tar.gz /mnt/*zst"
+          find cache/pikaur -type f -name '*.pkg.tar.zst' | xargs -I % curl --fail -Ffile=@% 'https://uploads.zhulik.wtf/upload?token=${{ secrets.UPLOAD_TOKEN }}'
