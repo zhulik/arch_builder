@@ -6,6 +6,9 @@ require "net/http"
 require "json"
 require "forwardable"
 
+require "faraday"
+require "faraday/middleware"
+
 Dir["#{File.dirname(__FILE__)}/builder/**/*.rb"].each { load(_1) }
 
 class CLI

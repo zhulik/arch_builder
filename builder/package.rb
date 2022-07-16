@@ -28,7 +28,7 @@ module Builder
 
     def version = info[:Version]
 
-    def built? = exists_urls.map { http_head(_1) }
+    def built? = exists_urls.any? { http_head(_1).status == 200 }
 
     def info
       @info ||= begin
