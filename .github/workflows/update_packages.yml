@@ -38,13 +38,21 @@ jobs:
       - name: Pull comtainer
         run: docker-compose pull
 
+      - name: Check if the package is already built
+        id: built_step
+        run: |
+          built=$(docker-compose run arch_builder ./builder-cli --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} info ${{ matrix.package }} | jq -r .built)
+          echo "::set-output name=built::$built"
+
       - name: Get latest verion
+        if: steps.built_step.outputs.built == 'false'
         id: version_step
         run: |
-          version=$(docker-compose run arch_builder ./builder-cli  --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} info ${{ matrix.package }} | jq -r .version)
+          version=$(docker-compose run arch_builder ./builder-cli --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} info ${{ matrix.package }} | jq -r .version)
           echo "::set-output name=version::$version"
 
       - name: Cache
+        if: steps.built_step.outputs.built == 'false'
         id: cache
         uses: actions/cache@v3
         with:
@@ -54,9 +62,11 @@ jobs:
             ${{ matrix.package }}-v4
 
       - name: Build
+        if: steps.built_step.outputs.built == 'false'
         run: |
-           docker-compose run arch_builder ./builder-cli  --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} build ${{ matrix.package }}
+           docker-compose run arch_builder ./builder-cli --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} build ${{ matrix.package }}
 
       - name: Upload packages
+        if: steps.built_step.outputs.built == 'false'
         run: |
           find cache/pikaur -type f -name '*.pkg.tar.zst' | xargs -I % curl --fail -Ffile=@% 'https://${{ secrets.UPLOAD_HOST }}/upload?token=${{ secrets.UPLOAD_TOKEN }}'
