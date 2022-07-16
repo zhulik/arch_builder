@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "English"
 module Builder
   module Commands
     class Build
@@ -39,7 +38,7 @@ module Builder
 
       def execute(command)
         CLI.logger.info("Executing #{command}...")
-        raise ExitStatusError(command, $CHILD_STATUS.exitstatus) unless system(command)
+        raise ExitStatusError(command, $?.exitstatus) unless system(command) # rubocop:disable Style/SpecialGlobalVars
       end
     end
   end
