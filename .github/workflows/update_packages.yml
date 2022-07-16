@@ -35,17 +35,6 @@ jobs:
       - name: Authenticate at ghcr.io
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u USERNAME --password-stdin
 
-      - name: Get latest version
-        id: version_step
-        run: |
-          version=$(curl --fail https://aur.archlinux.org/rpc/\?v\=5\&type\=info\&arg\[\]\=${{ matrix.package }} | jq -r .results\[\].Version)
-          echo "::set-output name=version::$version"
-
-      # TODO: check if the package was already built and uploaded
-
-      # - name: Print latest version
-      #   run: echo ${{ steps.version_step.outputs.version }}
-
       - name: Cache
         id: cache
         uses: actions/cache@v3
@@ -57,10 +46,8 @@ jobs:
 
       - name: Build
         run: |
-          sudo chmod -R 777 cache
-          docker-compose run arch_builder build.rb ${{ matrix.package }}
-          sudo chmod -R 777 cache
+           docker-compose run arch_builder ./builder-cli  --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} build ${{ matrix.package }}
 
       - name: Upload packages
         run: |
-          find cache/pikaur -type f -name '*.pkg.tar.zst' | xargs -I % curl --fail -Ffile=@% 'https://uploads.zhulik.wtf/upload?token=${{ secrets.UPLOAD_TOKEN }}'
+          find cache/pikaur -type f -name '*.pkg.tar.zst' | xargs -I % curl --fail -Ffile=@% 'https://${{ secrets.UPLOAD_HOST }}/upload?token=${{ secrets.UPLOAD_TOKEN }}'

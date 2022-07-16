@@ -24,7 +24,9 @@ module Builder
 
     def pkgbuild = @pkgbuild ||= Pkgbuild.new(http_get(AUR_PKGBUILD_URL + @name))
 
-    def filenames = @filenames ||= arch.map { "#{@name}-#{version}-#{_1}#{PACKAGE_EXTENSION}" }
+    def filenames = @filenames ||= arch.map { "#{full_name}-#{_1}#{PACKAGE_EXTENSION}" }
+
+    def full_name = "#{@name}-#{version}"
 
     def version = info[:Version]
 

@@ -13,7 +13,7 @@ RUN useradd -m -p $(openssl passwd -1 password) user && \
 ADD build.rb /bin
 
 USER user
-WORKDIR /home/user
+
 RUN mkdir -p /home/user/.cache/pikaur/pkg &&\
   mkdir /home/user/go
 
@@ -22,8 +22,8 @@ VOLUME /home/user/go
 VOLUME /tmp
 VOLUME /mnt
 
-RUN mkdir pikaur &&\
-  cd pikaur &&\
+RUN mkdir /home/user/pikaur &&\
+  cd /home/user/pikaur &&\
   curl  https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD\?h\=pikaur | tee PKGBUILD &&\
   makepkg -s &&\
   mv pikaur-*-any.pkg.tar.zst /home/user &&\
@@ -31,3 +31,10 @@ RUN mkdir pikaur &&\
   rm -rf pikaur
 
 RUN sudo pacman -U --noconfirm /home/user/pikaur-*-any.pkg.tar.zst
+
+RUN mkdir /home/user/builder
+
+WORKDIR /home/user/builder
+
+ADD builder builder/
+ADD builder-cli .

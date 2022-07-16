@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 Faraday.default_connection_options = Faraday::ConnectionOptions.new(
-  timeout: 2,
-  open_timeout: 2
+  timeout: 10,
+  open_timeout: 10
 )
 
 module Builder

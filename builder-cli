@@ -5,6 +5,7 @@ require "optparse"
 require "net/http"
 require "json"
 require "forwardable"
+require "logger"
 
 require "faraday"
 require "faraday/middleware"
@@ -12,6 +13,12 @@ require "faraday/middleware"
 Dir["#{File.dirname(__FILE__)}/builder/**/*.rb"].each { load(_1) }
 
 class CLI
+  def self.logger
+    @logger ||= Logger.new($stdout).tap do |l|
+      l.level = Logger::INFO
+    end
+  end
+
   def run
     run_command!(*parse_args!)
   end
