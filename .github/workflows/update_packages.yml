@@ -38,7 +38,7 @@ jobs:
       - name: Get latest version
         id: version_step
         run: |
-          version=$(curl https://aur.archlinux.org/rpc/\?v\=5\&type\=info\&arg\[\]\=${{ matrix.package }} | jq -r .results\[\].Version)
+          version=$(curl --fail https://aur.archlinux.org/rpc/\?v\=5\&type\=info\&arg\[\]\=${{ matrix.package }} | jq -r .results\[\].Version)
           echo "::set-output name=version::$version"
 
       - name: Print latest version
@@ -93,7 +93,7 @@ jobs:
         run: |
           mkdir artifacts
           mv {${{ steps.new_files_step.outputs.list }}} artifacts/
-          find artifacts -type f -name '*.zst' -exec curl -Ffile=@{} 'https://uploads.zhulik.wtf/upload?token=${{ secrets.UPLOAD_TOKEN }}' \;
+          find artifacts -type f -name '*.zst' -exec curl --fail -Ffile=@{} 'https://uploads.zhulik.wtf/upload?token=${{ secrets.UPLOAD_TOKEN }}' \;
 
   # push_to_repo:
   #   name: Push to repo
