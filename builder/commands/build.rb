@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "English"
 module Builder
   module Commands
     class Build
