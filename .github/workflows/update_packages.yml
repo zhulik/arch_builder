@@ -23,7 +23,7 @@ jobs:
           - pikaur
           - platformio
           - plymouth
-          - rubymine
+          # - rubymine
           - shellcheck-bin
           - telegraf
           - visual-studio-code-bin
