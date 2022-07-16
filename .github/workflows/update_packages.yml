@@ -39,6 +39,7 @@ jobs:
         run: docker-compose pull
 
       - name: Get latest verion
+        id: version_step
         run: |
           version=$(docker-compose run arch_builder ./builder-cli  --host ${{ secrets.UPLOAD_HOST }} --token ${{ secrets.UPLOAD_TOKEN }} info ${{ matrix.package }} | jq -r .version)
           echo "::set-output name=version::$version"
