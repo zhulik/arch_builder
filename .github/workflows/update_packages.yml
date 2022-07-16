@@ -27,6 +27,7 @@ jobs:
           - shellcheck-bin
           - telegraf
           - visual-studio-code-bin
+          - plex-media-server
 
     steps:
       - name: Check out
