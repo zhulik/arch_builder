@@ -10,8 +10,6 @@ RUN useradd -m -p $(openssl passwd -1 password) user && \
   echo "user ALL=(ALL) NOPASSWD:/usr/sbin/pikaur" >> /etc/sudoers && \
   echo "user ALL=(ALL) NOPASSWD:/usr/sbin/ncdu" >> /etc/sudoers
 
-ADD build.rb /bin
-
 USER user
 
 RUN mkdir -p /home/user/.cache/pikaur/pkg &&\
