@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         package:
-          # - adguardhome # TODO: deal with colon in file names
+          - adguardhome
           - asdf-vm
           - collectd
           - gickup
