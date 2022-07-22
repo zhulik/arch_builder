@@ -28,6 +28,8 @@ jobs:
           - telegraf
           - visual-studio-code-bin
           - plex-media-server
+          - golangci-lint-bin
+          - aws-session-manager-plugin
 
     steps:
       - name: Check out
