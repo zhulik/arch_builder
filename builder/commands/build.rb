@@ -38,7 +38,7 @@ module Builder
 
       def execute(command)
         CLI.logger.info("Executing #{command}...")
-        raise ExitStatusError(command, $?.exitstatus) unless system(command) # rubocop:disable Style/SpecialGlobalVars
+        raise ExitStatusError.new(command, $?.exitstatus) unless system(command) # rubocop:disable Style/SpecialGlobalVars
       end
     end
   end

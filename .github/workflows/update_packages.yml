@@ -28,7 +28,7 @@ jobs:
           - telegraf
           - visual-studio-code-bin
           - plex-media-server
-          - golangci-lint-bin
+          # - golangci-lint-bin
           - aws-session-manager-plugin
           - freecad-linkstage3-git
 
