@@ -30,6 +30,7 @@ jobs:
           - plex-media-server
           - golangci-lint-bin
           - aws-session-manager-plugin
+          - freecad-linkstage3-git
 
     steps:
       - name: Check out
