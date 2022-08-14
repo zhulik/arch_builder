@@ -12,7 +12,7 @@ jobs:
       matrix:
         package:
           - adguardhome
-          - asdf-vm
+          # - asdf-vm
           - collectd
           - gickup
           - flacon
