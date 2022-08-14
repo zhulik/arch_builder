@@ -17,7 +17,7 @@ jobs:
           - gickup
           - flacon
           # - git-standup-git
-          - google-chrome
+          # - google-chrome
           - neolink-git
           - package-query
           - pikaur
@@ -27,10 +27,9 @@ jobs:
           - shellcheck-bin
           - telegraf
           - visual-studio-code-bin
-          - plex-media-server
+          # - plex-media-server
           # - golangci-lint-bin
-          - aws-session-manager-plugin
-          - freecad-linkstage3-git
+          # - aws-session-manager-plugin
 
     steps:
       - name: Check out
