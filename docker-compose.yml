@@ -3,6 +3,7 @@ version: '3.8'
 services:
   arch_builder:
     image: ghcr.io/zhulik/arch_builder:latest
+    # build: .
     volumes:
       - ./cache/pkg:/var/cache/pacman/pkg
       - ./cache/pikaur:/home/user/.cache/pikaur/pkg

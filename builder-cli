@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require "net/http"
+require "json"
+require "forwardable"
+require "logger"
+
+require "faraday"
+require "faraday/middleware"
+
+Dir["#{File.dirname(__FILE__)}/builder/**/*.rb"].each { load(_1) }
+
+class CLI
+  def self.logger
+    @logger ||= Logger.new($stdout).tap do |l|
+      l.level = Logger::INFO
+    end
+  end
+
+  def run
+    run_command!(*parse_args!)
+  end
+
+  private
+
+  def parse_args! # rubocop:disable Metrics/AbcSize
+    options = {}
+    OptionParser.new do |opts|
+      opts.banner = "Usage: builder-cli [options] <command> [args]"
+
+      opts.on("-h HOST", "--host=HOST", "Host to upload to") do |host|
+        options[:host] = host
+      end
+
+      opts.on("-t TOKEN", "--token=TOKEN", "Security token") do |token|
+        options[:token] = token
+      end
+    end.parse!
+
+    raise OptionParser::MissingArgument, "--host option is required" if options[:host].nil?
+    raise OptionParser::MissingArgument, "--token option is required" if options[:token].nil?
+    raise OptionParser::MissingArgument, "a command must be passed" if ARGV.empty?
+
+    command, *argv = ARGV
+    [command, options, argv]
+  end
+
+  def run_command!(command, options, argv)
+    Builder::Commands.const_get(command.capitalize).new(**options).run(argv)
+  end
+end
+
+CLI.new.run if __FILE__ == $PROGRAM_NAME
